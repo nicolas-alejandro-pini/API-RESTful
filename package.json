@@ -4,13 +4,16 @@
   "description": "API RESTful en NodeJs",
   "main": "index.js",
   "dependencies": {
-    "express": "^4.15.2"
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "mongoose": "^4.9.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
   },
   "author": "Nicolas Pini",
   "license": "ISC"
