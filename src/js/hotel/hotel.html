@@ -1,0 +1,35 @@
+<div class="hoteles-page">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-md-6 offset-md-3 col-xs-12">
+
+                <form class="form-inline my-2 my-lg-0">
+                    <h1 class="text-xs-center" ng-bind="::$ctrl.title"></h1>
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" ng-model="hotelName.name">
+                </form>
+
+                <div ng-repeat="hotel in $ctrl._Hotels | filter: hotelName ">
+                    <div class="jumbotron" class="col-md-6 offset-md-3 col-xs-12">
+                        <span style="font-size:20px; margin-left:10px;">
+                      {{hotel.name}}
+                      </span>
+                        <br>
+                        <span style="font-size:20px; margin-left:20px;">
+                        Precio: {{hotel.price}}
+                      </span>
+                        <br>
+                        <span style="font-size:20px; margin-left:20px;">
+                        Estrellas: {{hotel.stars}}
+                      </span>
+                        <br>
+                        <span style="font-size:20px; margin-left:20px;">
+                        <a ui-sref="app.hotelid({id : hotel._id })">Ver hotel</a>
+                      </span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,66 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+            <a class="navbar-brand" ui-sref="app.home" ng-bind="::$ctrl.appName | lowercase">
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.hoteles">
+            Hoteles
+          </a>
+                </li>
+                <li class="nav-item disabled">
+                    <a class="nav-link disabled" ui-sref-active="inactive" ui-sref="app.home">
+            Vuelos
+          </a>
+                </li>
+
+                <li class="nav-item disabled">
+                    <a class="nav-link" ui-sref-active="inactive" ui-sref="app.home">
+            Vuelo + Hotel
+          </a>
+                </li>
+                <li class="nav-item disabled">
+                    <a class="nav-link" ui-sref-active="inactive" ui-sref="app.home">
+            Paquetes
+          </a>
+                </li>
+
+                <li class="dropdown disabled">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mas<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Disney</a></li>
+                        <li><a href="#">Escapadas</a></li>
+                        <li><a href="#">Seguros</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">OFERTAS</li>
+                        <li><a href="#">Autos</a></li>
+                        <li><a href="#">Cruceros</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.login">
+                  Ingresar
+                </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active" ui-sref="app.register">
+                  Registrar
+                </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
