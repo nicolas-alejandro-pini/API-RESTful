@@ -1,31 +1,54 @@
-'use strict'
 var express = require('express');
-var mongoose = require('mongoose');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+// Esquemas de mongoDB
+require('./api/models/Hotels');
+require('./api/models/Comments');
 
-var Hotel = require('./api/models/todoListModel');
-var routes = require('./api/routes/todoListRoutes');
+// Routing
+var index = require('./api/routes/index');
+var users = require('./api/routes/users');
+
+// Coneccion a mongoDB
+mongoose.connect('mongodb://localhost/almundo')
 
 var app = express();
-var port = process.env.PORT || 3000;
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost/test', function(err){
-  if(err)
-    console.log(err);
-  else
-    console.log('Connected to //localhost/test');
-});
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({ extended: true}));
+// uncomment after placing your favicon in /public
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Middleware intercepts incomming http request
-app.use(function(req,res){
-  res.status(404).send({url: req.originalUrl + ' not found'});
+app.use('/', index);
+//app.use('/users', users);
+
+// catch 404 and forward to error handler
+app.use(function(req, res, next) {
+  var err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
-routes(app);
+// error handler
+app.use(function(err, req, res, next) {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-app.listen(port);
-console.log('Server started on: ' + port);
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
+module.exports = app;
