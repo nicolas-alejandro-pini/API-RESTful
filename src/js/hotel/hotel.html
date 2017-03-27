@@ -9,6 +9,8 @@
                     <input class="form-control mr-sm-2" type="text" placeholder="Search" ng-model="hotelName.name">
                 </form>
 
+                <hotel-carousel hotels="$ctrl._Hotels"></hotel-carousel>
+
                 <div ng-repeat="hotel in $ctrl._Hotels | filter: hotelName ">
                     <div class="jumbotron" class="col-md-6 offset-md-3 col-xs-12">
                         <span style="font-size:20px; margin-left:10px;">
