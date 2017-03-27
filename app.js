@@ -8,13 +8,14 @@ var mongoose = require('mongoose');
 // Esquemas de mongoDB
 require('./api/models/Hotels');
 require('./api/models/Comments');
+require('./api/models/User');
 
 // Routing
 var index = require('./api/routes/index');
 var users = require('./api/routes/users');
 
 // Coneccion a mongoDB
-mongoose.connect('mongodb://localhost/almundo')
+mongoose.connect('mongodb://localhost/almundo');
 
 var app = express();
 
@@ -31,7 +32,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
-//app.use('/users', users);
+app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

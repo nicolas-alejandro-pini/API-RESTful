@@ -2,6 +2,7 @@ class AppHeaderCtrl {
   constructor(AppConstants) {
     'ngInject';
 
+    this.isCollapsed = true;
     this.appName = AppConstants.appName;
   }
 }

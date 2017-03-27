@@ -6,7 +6,12 @@ function HomeConfig($stateProvider) {
     url: '/',
     controller: 'HomeCtrl as $ctrl',
     templateUrl: 'home/home.html',
-    title: 'Home'
+    title: 'Home',
+    resolve: {
+      hoteles: function(Hotels, $state, $stateParams){
+          return Hotels.getAll();
+      }
+    }
   });
 
 };

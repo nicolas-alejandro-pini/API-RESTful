@@ -1,66 +1,43 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+<nav class="navbar navbar-default" role="navigation">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" ng-click="isCollapsed = !isCollapsed">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-            <a class="navbar-brand" ui-sref="app.home" ng-bind="::$ctrl.appName | lowercase">
-            </a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" ui-sref-active="active" ui-sref="app.hoteles">
-            Hoteles
-          </a>
-                </li>
-                <li class="nav-item disabled">
-                    <a class="nav-link disabled" ui-sref-active="inactive" ui-sref="app.home">
-            Vuelos
-          </a>
-                </li>
-
-                <li class="nav-item disabled">
-                    <a class="nav-link" ui-sref-active="inactive" ui-sref="app.home">
-            Vuelo + Hotel
-          </a>
-                </li>
-                <li class="nav-item disabled">
-                    <a class="nav-link" ui-sref-active="inactive" ui-sref="app.home">
-            Paquetes
-          </a>
-                </li>
-
-                <li class="dropdown disabled">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mas<span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Disney</a></li>
-                        <li><a href="#">Escapadas</a></li>
-                        <li><a href="#">Seguros</a></li>
-                        <li role="separator" class="divider"></li>
-                        <li class="dropdown-header">OFERTAS</li>
-                        <li><a href="#">Autos</a></li>
-                        <li><a href="#">Cruceros</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-            <ul class="nav navbar-nav navbar-right">
-                <li class="nav-item">
-                    <a class="nav-link" ui-sref-active="active" ui-sref="app.login">
-                  Ingresar
-                </a>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link" ui-sref-active="active" ui-sref="app.register">
-                  Registrar
-                </a>
-                </li>
-            </ul>
-        </div>
+        <a class="navbar-brand" ui-sref="app.home" ng-bind="::$ctrl.appName | lowercase">
+        </a>
+    </div>
+    <div class="collapse navbar-collapse" uib-collapse="isCollapsed">
+        <!-- logged in & out -->
+        <ul class="nav navbar-nav navbar-left">
+            <li><a ui-sref-active="active" ui-sref="app.hoteles">Hoteles</a></li>
+            <li><a ui-sref-active="active" ui-sref="app.home">Vuelos</a></li>
+            <li><a ui-sref-active="active" ui-sref="app.home">Vuelos + Hoteles</a></li>
+            <li><a ui-sref-active="active" ui-sref="app.home">Paquetes</a></li>
+            <li class="dropdown" uib-dropdown dropdown-append-to-body>
+                <a href="#" id="button-template-url" role="button" uib-dropdown-toggle>Dropdown <span class="caret"></span></a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="button-template-url">
+                    <li role="menuitem"><a ui-sref-active="active" ui-sref="app.home">Disney</a></li>
+                    <li role="menuitem"><a ui-sref-active="active" ui-sref="app.home">Escapadas</a></li>
+                    <li role="menuitem"><a ui-sref-active="active" ui-sref="app.home">Seguros</a></li>
+                    <li class="divider"></li>
+                    <li role="menuitem"><a ui-sref-active="active" ui-sref="app.home">OFERTAS</a></li>
+                    <li role="menuitem"><a ui-sref-active="active" ui-sref="app.home">Autos</a></li>
+                    <li role="menuitem"><a ui-sref-active="active" ui-sref="app.home">Cruceros</a></li>
+                </ul>
+            </li>
+        </ul>
+        <!-- logged in -->
+        <ul class="nav navbar-nav navbar-right" show-authed="true">
+            <li><a ui-sref-active="active" ui-sref="app.home">Mi cuenta</a></li>
+            <li><a ui-sref-active="active" ui-sref="app.home">Salir</a></li>
+        </ul>
+        <!-- logged out -->
+        <ul class="nav navbar-nav navbar-right" show-authed="false">
+          <li><a ui-sref-active="active" ui-sref="app.login">Ingresar</a></li>
+          <li><a ui-sref-active="active" ui-sref="app.register">Registrar</a></li>
+        </ul>
     </div>
 </nav>

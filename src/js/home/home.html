@@ -1,7 +1,10 @@
  <div class="home-page">
 
   <div class="container page">
-    <span>{{ $ctrl.title }}</span>
+    <!-- <ul ng-repeat="hotel in $ctrl._Hotels | orderBy: 'name'">
+      <li>{{hotel.name}}</li>
+    </ul> -->
+    <hotel-carousel hotels="$ctrl._Hotels"></hotel-carousel>
   </div>
 
 </div>
