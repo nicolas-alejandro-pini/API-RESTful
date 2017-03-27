@@ -1,10 +1,18 @@
  <div class="home-page">
-
-  <div class="container page">
-    <!-- <ul ng-repeat="hotel in $ctrl._Hotels | orderBy: 'name'">
-      <li>{{hotel.name}}</li>
-    </ul> -->
-    <hotel-carousel hotels="$ctrl._Hotels"></hotel-carousel>
-  </div>
-
+    <div class="row">
+      <div class="col-md-12 col-sm-12 col-xs-12">
+        <find-hotel></find-hotel>
+      </div>
+    </div>
+    <div class="container jumbotron">
+      <div class="row">
+        <div class="col-md-3 col-sm-12 col-xs-12">
+            <maps></maps>
+            <!-- filtros -->
+        </div>
+        <div class="col-md-9 col-sm-12 col-xs-12">
+            <list-hotels></list-hotels>
+        </div>
+      </div>
+    </div>
 </div>

@@ -9,6 +9,8 @@ var mongoose = require('mongoose');
 require('./api/models/Hotels');
 require('./api/models/Comments');
 require('./api/models/User');
+require('./api/models/City');
+require('./api/models/Room');
 
 // Routing
 var index = require('./api/routes/index');

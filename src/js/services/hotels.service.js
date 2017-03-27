@@ -30,5 +30,25 @@ export default class Hotels {
         });
     }
 
+    findHotel(form) {
+      return this._$http({
+        url: this._AppConstants.api + '/find',
+        method: 'POST',
+        data: {
+          find: form
+        }
+      }).then(
+        (res) => {
+          // Actualizo el componente de Listado de hoteles
+          console.log(res.data);
+          // Devuelve listado de hoteles
+          this.current = res.data;
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
+
 
 }

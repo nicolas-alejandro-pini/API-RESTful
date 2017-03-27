@@ -4,11 +4,25 @@ var router = express.Router();
 var mongoose = require('mongoose');
 var Hotel = mongoose.model('Hotel');
 var Comment = mongoose.model('Comment');
+var City = mongoose.model('City');
+var Room = mongoose.model('Room');
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
     res.render('index', {
         title: 'almundo.com'
+    });
+});
+
+router.post('/find', function(req, res, next) {
+    console.log(req.body);
+    Hotel.find(function(err, hotels) {
+        if (err) {
+            return next(err);
+        }
+
+        res.json(hotels);
     });
 });
 
@@ -31,7 +45,7 @@ router.post('/hoteles', function(req, res, next) {
         }
 
         res.json(hotel)
-    })
+    });
 });
 // curl --data 'name=Hotel Emperador&stars=3&price=1596' http://localhost:3000/hoteles
 // curl --data 'name=Petit Palace San Bernardo&stars=4&price=2145' http://localhost:3000/hoteles

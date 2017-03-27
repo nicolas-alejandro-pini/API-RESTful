@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-md-4 col-sm-4 col-xs-4">
+      <hotel-carousel hotel="$ctrl.hotel"></hotel-carousel>
+    </div>
+    <div class="col-md-3 col-sm-3 col-xs-3">
+      <span style="font-size:20px; text-align:left">
+        {{$ctrl.hotel.name}}
+      </span>
+      <ul>
+          <li ng-repeat="i in $ctrl.hotel.stars"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></li>
+      </ul>
+    </div>
+    <div class="col-md-5 col-sm-5 col-sm-5">
+      <p style="font-size:12px; text-align:left">Precio por noche por habitacion</p>
+      <span style="font-size:20px; text-align:center">
+      Precio: {{$ctrl.hotel.price}}
+      </span>
+      <p style="font-size:12px; text-align:left">Impuestos y tasas no incluidos</p>
+      <button type="button" class="btn btn-primary" ui-sref="app.hotelid({id : $ctrl.hotel._id })">
+        Ver Hotel
+      </button>
+    </div>
+</div>
+<br/>

@@ -18,7 +18,7 @@ class HotelCarouselCtrl {
       var newWidth = 300 + this.slides.length + 1;
       this.slides.push({
         image: '//unsplash.it/' + newWidth + '/150',
-        text: ['Nice image','Awesome photograph','That is so cool','I love that'][this.slides.length % 4],
+        text: ['a','b','c','d'][this.slides.length % 4],
         id: this.currIndex++
       });
   }
@@ -32,7 +32,7 @@ class HotelCarouselCtrl {
 
 let HotelCarousel = {
   bindings: {
-    hotels: '='
+    hotel: "="
   },
   controller: HotelCarouselCtrl,
   templateUrl: 'components/hotel-carousel.html'

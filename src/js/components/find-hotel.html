@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="jumbotron" ng-disabled="$ctrl.isSubmitting">
+      <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+          <h4>Hoteles disponibles para:</h4>
+        </div>
+      </div>
+      <div class="row">
+        <form ng-submit="$ctrl.submitForm()">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+              <span>Ciudad</span>
+                <input type="text" placeholder="Ciudad" class="form-control" ng-model="$ctrl.formData.city">
+            </div>
+
+            <div class="col-md-3 col-sm-12 col-xs-12">
+              <span>Fecha de entrada</span>
+                <p class="input-group">
+                  <input type="text" class="form-control" uib-datepicker-popup="{{$ctrl.format}}" ng-model="$ctrl.formData.startDate" is-open="$ctrl.popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="$ctrl.altInputFormats" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="$ctrl.open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                  </span>
+                </p>
+            </div>
+
+            <div class="col-md-3 col-sm-12 col-xs-12">
+              <span>Fecha de salida</span>
+              <p class="input-group">
+                <input type="text" class="form-control" uib-datepicker-popup="{{$ctrl.format}}" ng-model="$ctrl.formData.endDate" is-open="$ctrl.popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="$ctrl.altInputFormats" />
+                <span class="input-group-btn">
+                  <button type="button" class="btn btn-default" ng-click="$ctrl.open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                </span>
+              </p>
+            </div>
+
+            <div class="col-md-3 col-sm-12 col-xs-12">
+              <span>Personas</span>
+                <input type="number" placeholder="Cantidad" class="form-control" ng-model="$ctrl.formData.persons">
+            </div>
+
+            <div class="col-md-1 col-sm-2 col-xs-2 col-md-offset-11">
+              <button class="btn btn-sm btn-primary pull-xs-right"
+                type="submit">Buscar
+              </button>
+            </div>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,21 +1,5 @@
 <div class="hotel-page">
     <div class="container">
-        <div class="row">
-            <h1 class="text-xs-center" ng-bind="::$ctrl.title"></h1>
-            <!--  Esto deberia reemplazarse por un componente -->
-            <div class="jumbotron" class="col-md-6 offset-md-3 col-xs-12">
-                <span style="font-size:20px; margin-left:10px;">
-              {{::$ctrl._Hotel.name}}
-              </span>
-                <br>
-                <span style="font-size:20px; margin-left:20px;">
-                Precio: {{::$ctrl._Hotel.price}}
-              </span>
-                <br>
-                <span style="font-size:20px; margin-left:20px;">
-                Estrellas: {{::$ctrl._Hotel.stars}}
-              </span>
-            </div>
-        </div>
+      <hotel-detail hotel="$ctrl._Hotel"></hotel-detail>
     </div>
 </div>
