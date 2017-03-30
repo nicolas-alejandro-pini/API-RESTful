@@ -36,14 +36,13 @@ gulp.task('browserify', ['views'], function() {
       //Pass desired output filename to vinyl-source-stream
       .pipe(source('main.js'))
       // Start piping stream to tasks!
-      .pipe(gulp.dest('./public/javascripts/'));
+      .pipe(gulp.dest('./public/js/'));
 });
 
 gulp.task('html', function() {
   return gulp.src("src/index.html")
       .on('error', interceptErrors)
       .pipe(gulp.dest('./public'))
-      .pipe(gulp.dest('./views'));
 });
 
 gulp.task('views', function() {
