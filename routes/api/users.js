@@ -5,6 +5,7 @@ var passport = require('passport');
 var User = mongoose.model('User');
 var auth = require('../auth');
 
+// Registration
 router.post('/users', function(req, res, next) {
     var user = new User();
 
@@ -16,9 +17,6 @@ router.post('/users', function(req, res, next) {
 
     }).catch(next);
 });
-
-// { "username":"kakaroto" , "email":"kakaroto@vegita.com", "password": "roshi", "token":"bulma", "bio":"goku salvanos"}
-// curl --data 'username=kakaroto&email=kakaroto@vegita.com&password=roshi&token=bulma&bio=goku salvanos' http://localhost:3000/users/register
 
 router.post('/users/login', function(req, res, next) {
   if(!req.body.user.email){

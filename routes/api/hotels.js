@@ -1,125 +1,111 @@
-var express = require('express');
-var router = express.Router();
-
+var router = require('express').Router();
+var passport = require('passport');
 var mongoose = require('mongoose');
+var auth = require('../auth');
+
 var Hotel = mongoose.model('Hotel');
-var Comment = mongoose.model('Comment');
 var City = mongoose.model('City');
-var Room = mongoose.model('Room');
+var User = mongoose.model('User');
 
-router.post('/find', function(req, res, next) {
-    console.log(req.body);
-    Hotel.find(function(err, hotels) {
-        if (err) {
-            return next(err);
-        }
+// Add a new hotel
+router.post('/', auth.required, function(req, res, next){
+  User.findById(req.payload.id).then(function(user){
+   if(!user) { return res.sendStatus(401); }
 
-        res.json(hotels);
+    var hotel = new Hotel();
+    hotel.name = req.body.hotel.name;
+    hotel.stars = req.body.hotel.stars;
+    hotel.description = req.body.hotel.description;
+    hotel.setPosition(req.body.hotel.position);
+    hotel.price = req.body.hotel.price;
+    hotel.createdBy = user.username;
+
+    console.log(req.body.hotel.cityName.toLowerCase());
+    City.findOne({ name : req.body.hotel.cityName.toLowerCase() }).then(function(city){
+        if(!city) {return res.sendStatus(404); }
+        hotel._city = city._id;
     });
-});
 
-router.get('/hoteles', function(req, res, next) {
-    Hotel.find(function(err, hotels) {
-        if (err) {
-            return next(err);
-        }
-
-        res.json(hotels);
+    return hotel.save().then(function(){
+      console.log(hotel.slug + ' -> ' + hotel.name);
+      return res.json({ hotel: hotel.toJSONFor() });
     });
+  }).catch(next);
 });
-//curl http://localhost:3000/hoteles
 
-router.post('/hoteles', function(req, res, next) {
-    var hotel = new Hotel(req.body);
-    hotel.save(function(err, hotel) {
-        if (err) {
-            return next(err);
-        }
+// Finding hotels
+router.get('/', auth.optional, function(req, res, next){
+  var query = {};
+  var limit = 20;
+  var offset = 0;
 
-        res.json(hotel)
-    });
-});
-// curl --data 'name=Hotel Emperador&stars=3&price=1596' http://localhost:3000/hoteles
-// curl --data 'name=Petit Palace San Bernardo&stars=4&price=2145' http://localhost:3000/hoteles
-// curl --data 'name=Hotel Nuevo Boston&stars=2&price=861' http://localhost:3000/hoteles
+  if(typeof req.query.limit !== 'undefined'){
+    limit = req.query.limit;
+  }
 
-router.get('/hoteles/:hotel', function(req, res, next) {
-    req.hotel.populate('comments', function(err, hotel) {
-        if (err) {
-            return next(err);
-        }
-        res.json(req.hotel);
-    });
-});
-// curl http://localhost:3000/hoteles/58d1ba8ec0e0c40834302165
+  if(typeof req.query.offset !== 'undefined'){
+    offset = req.query.offset;
+  }
 
-router.post('/hoteles/:hotel/comments', function(req, res, next) {
-    var comment = new Comment(req.body);
-    comment.hotel = req.hotel;
+  if( typeof req.query.tag !== 'undefined'){
+    query.tagList = {"$in" : [req.query.tag]};
+  }
 
-    comment.save(function(err, comment) {
-        if (err) {
-            return next(err);
-        }
+  Promise.all([
+    req.query.city ? City.findOne({city: req.query.city}) : null
+  ]).then(function(results){
+    var city = results[0];
 
-        req.hotel.comments.push(comment);
-        req.hotel.save(function(err, hotel) {
-            if (err) {
-                return next(err);
-            }
-
-            res.json(comment);
-        })
-    })
-});
-//curl --data 'body=hotel de maravillas&author=un cliente' http://localhost:3000/hoteles/58d1ba8ec0e0c40834302165/comments
-
-router.put('/hoteles/:hotel/comments/:comment/upvote', function(req, res, next) {
-    if (!req.hotel) {
-        return next(new Error('No se encuentra el hotel.'));
+    if(city){
+      query.city = city._id;
     }
 
-    req.comment.upvote(function(err, comment) {
-        if (err) {
-            return next(err);
-        }
+    return Promise.all([
+      Hotel.find(query)
+        .limit(Number(limit))
+        .skip(Number(offset))
+        .sort({createdAt: 'desc'})
+        .populate('city')
+        .exec(),
+      Hotel.count(query).exec(),
+      req.payload ? User.findById(req.payload.id) : null,
+    ]).then(function(results){
+      var hotels = results[0];
+      var hotelsCount = results[1];
+      var user = results[2];
 
-        res.json(comment);
+      return res.json({
+         hotels: hotels.map(function(hotel){
+           return hotel.toJSONFor();
+         }),
+         hotelsCount: hotelsCount
+      });
     });
-})
-//curl -X PUT http://localhost:3000/hoteles/58d1ba8ec0e0c40834302165/comments/58d1bbd08983ef08b26198c0/upvote
-
-router.param('hotel', function(req, res, next, id) {
-    var query = Hotel.findById(id);
-
-    query.exec(function(err, hotel) {
-        if (err) {
-            return next(err);
-        }
-        if (!hotel) {
-            return next(new Error('El hotel no existe.'));
-        }
-
-        req.hotel = hotel;
-        return next();
-    });
+  }).catch(next);
 });
 
+// Get more commented hotels
+router.get('/:hotel', auth.optional, function(req, res, next) {
+    Promise.all([
+      req.hotel.populate('comments').execPopulate()
+    ]).then(function(results){
+      // var hotel = results[0];
+      console.log('results: ' + results);
+      return res.json({hotel: req.hotel.toJSONFor()});
+    }).catch(next);
+});
 
-router.param('comment', function(req, res, next, id) {
-    var query = Comment.findById(id);
+// Parametriza hotel
+router.param('hotel', function(req, res, next, id) {
+    Hotel.findOne({ slug: slug})
+      .populate('comments')
+      .then(function(hotel){
+        if(!hotel) { return res.sendStatus(404); }
 
-    query.exec(function(err, comment) {
-        if (err) {
-            return next(err);
-        }
-        if (!comment) {
-            return next(new Error('No se encuentra el comentario.'));
-        }
+        req.hotel = hotel;
 
-        req.comment = comment;
         return next();
-    });
+      }).catch(next);
 });
 
 module.exports = router;
