@@ -14,7 +14,7 @@ var UserSchema = new mongoose.Schema({
   // TODO quitar password y token
   password: String,
   token: String
-}, {timestamps: true});
+}, {timestamps: true, collection: 'users' });
 
 UserSchema.plugin(uniqueValidator, {message: 'Ya existe.'});
 
@@ -45,6 +45,14 @@ UserSchema.methods.toAuthJSON = function(){
     username: this.username,
     email: this.email,
     token: this.generateJWT()
+  };
+};
+
+UserSchema.methods.getUserDescriptionJSON = function(){
+  return {
+    username: this.username,
+    bio: this.bio,
+    image: this.image
   };
 };
 
